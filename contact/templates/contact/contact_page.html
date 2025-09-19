@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+
+{% block content %}
+
+    <h1>Contact Page</h1>
+    <p>{{ page.body|richtext }}</p>
+
+    <form action="{% pageurl page %}" method="POST">
+        {% csrf_token %}
+        {{ form.as_ul }}
+        <button type="submit">Contact Us</button>
+    </form>
+{% endblock %}

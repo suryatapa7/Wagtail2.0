@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% comment %} {% load wagtailcore_tags wagtailimages_tags  %} {% endcomment %}
+{% load wagtailcore_tags wagtail_cache %}
+
+
+{% comment %} {% block content %} {% endcomment %}
+  {% comment %} <style>
+     .richtext {
+      max-width: 50%;
+      border: 1px solid black;
+    }
+
+    .richtext .richtext-image.thumbnail-150 {
+      border: 10px solid blue;
+    }
+  </style>
+
+  <h1> {{ page.title }} </h1>
+  <h3> {{ page.subtitle }} </h3>
+  <h4> The body is below: the blogdetail page is below: 
+    {{ page.body|richtext }}
+  </h4>
+
+  <div class ="richtext">
+    this is the richtext content:
+
+    {{ page.body|richtext }}
+  </div>
+
+  <h3>Tags:</h3>
+  {% for tag in page.tags.all %}
+    {{ tag }} {{ tag.slug  }}<br>
+    {{tag.name}} <a href="/blog/?tag={{ tag.slug }}">{{tag.slug}}</a><br>
+  {% endfor %} {% endcomment %}
+  
+{% comment %} 
+  {% for block in page.body %}
+    {% if block.block_type == 'text' %}
+     <p>{{ block.value}}</p>
+    {% elif block.block_type == 'image' %}
+      {% image block.value fill-800x400 %}
+    {% elif block.block_type == 'doc' %}
+      {{block.value.url}}
+    {% elif block.block_type == 'page'%}
+      {{ block.value.title }} {{block.value.url}} <br/>
+      <a href="{{block.value.url}}">Go to {{block.value.title}}</a>
+    {% elif block.block_type == 'author' %}
+      {{block.value}}
+      {{block.value.bio}}
+    {% elif block.block_type == 'call_to_action_1' %}
+      <div>
+        <div class='rich-text'>
+          {{block.value.text}}
+        </div>
+        <a href="{{block.value.page.url}}" class="button">
+          {% if block.value.button_text %}
+            {{block.value.button_text}}
+          {% else %}
+            {{block.value.page.title}}
+          {% endif %}
+      </div>
+    {% elif block.block_type == 'info' %}
+      <div style="background-color:black; color:white; font-size:24px;padding:30px; text-align:center;">Danger!!TULI</div>
+    {% elif block.block_type == 'faq' %}
+      {% for question in block.value %}
+        <h3>{{ question.question }}</h3>
+        <p>{{ question.answer }}</p>
+      {% endfor %}
+    {% elif block.block_type == 'carousel'%}
+      {% for slide in block.value %}
+        {% if slide.block_type == 'image' %}
+          {% image slide.value fill-800x400 %}
+        {% elif slide.block_type == 'quotation' %}
+          <p>
+            {{ slide.value.text}} <br>
+            <strong>- {{ slide.value.author }}</strong>
+          </p>
+        {% endif %}
+      {% endfor %} 
+    {% endif %}
+  {% endfor %} {% endcomment %}
+{% comment %} {% endblock %} {% endcomment %}
+
+
+
+{% block content %}
+
+  {% wagtailpagecache 500 "page-title-cache" %}
+    <h1>{{ page.title }}</h1>
+  {% endwagtailpagecache %}
+
+  {% wagtailpagecache 500 "streamfields" %}
+    {% for block in page.body %}
+      {% include_block page.body%}
+    {% endfor %}
+  {% endwagtailpagecache %}
+
+    {% include "includes/author_dark_mode.html" with object=self.author %}
+{% endblock %}
+
+  

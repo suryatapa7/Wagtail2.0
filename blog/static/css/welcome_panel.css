@@ -1,0 +1,11 @@
+.welcome-panel {
+    background-color: #f1f1f1;
+    border: 1px solid #ddd;
+    border-radius:3px;
+    padding: 1em;
+    margin-bottom: 1em;
+}
+
+.welcome-panel p, h2 {
+    color: #333;
+}
