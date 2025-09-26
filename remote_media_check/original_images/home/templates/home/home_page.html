@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block body_class %}template-homepage{% endblock %}
+
+{% block extra_css %}
+
+{% comment %}
+Delete the line below if you're just getting started and want to remove the welcome screen!
+{% endcomment %}
+{% comment %} <link rel="stylesheet" href="{% static 'css/welcome_page.css' %}"> {% endcomment %}
+{% endblock extra_css %}
+
+{% block content %}
+
+The page is:- {{ page.cta_url.url }}
+
+<h1>{{ page.title }}</h1>
+
+{% comment %}
+Delete the line below if you're just getting started and want to remove the welcome screen!
+{% endcomment %}
+<h1>{{page.title}}</h1>
+<h3>{{page.subtitle}}</h3>
+
+{% if page.custom_document %}
+  THIS IS THE DOWNLOAD URL:
+  {{ page.custom_document.url }}
+  <a href=" {{ page.custom_document.url }} " download>DOWNLOAD</a>
+
+  {{ page.custom_document.title }}
+  {{ page.custom_document.description }}
+{% endif %}
+
+{% if page.body %}
+  {{page.body|richtext}}
+{% endif %}
+
+<hr>
+<hr>
+<hr>
+<hr>
+
+Image stuff below: <br>
+{% comment %} {{ page.image }} {% endcomment %}
+{% comment %} {% image page.image fill-150x150 format-jpeg %}
+{% image page.image width-400 %}
+{% image page.image width-400 format-avif-lossless %}
+{% image page.image width-400 format-webp-lossless %} {% endcomment %}
+
+
+{% image page.image fill-90x200 as custom_img %}
+<img src="{{ custom_img.url }}" alt= "{{ custom_img.alt }}">
+{% comment %} {{ custom_img.width }}
+{{ custom_img.height }} {% endcomment %}
+
+<br/>
+<br/>
+
+{% comment %} {%if page.cta_url or page.cta_external_url%}
+  {% if page.cta_url %}
+   <a href="{{ page.cta_url.url }}">LINK IN HERE: {{ page.cta_url.title }}</a>
+  {% else %}
+   <a href="{{page.cta_external_url}}">Some Website</a>
+  {% endif %}
+{% endif %} {% endcomment %}
+
+{% if page.get_cta_url %}
+  {{ page.get_cta_url }}
+{% endif %}
+
+  {% for orderable_object in page.gallery_images.all %}
+    {{orderable_object.image}}<br>
+  {% endfor %}
+  
+
+
+
+{% endblock content %}

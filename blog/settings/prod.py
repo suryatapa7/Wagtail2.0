@@ -11,10 +11,10 @@ ALLOWED_HOSTS = [os.environ["VIRTUAL_HOST"]]
 SECRET_KEY = os.environ["RANDOM_SECRET_KEY"]
 
 STATIC_URL = "/static/"
-STATIC_ROOT = "/www/static"
+STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 MEDIA_URL = "/media/"
-MEDIA_ROOT = "/www/media"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Built-in email sending service provided by CodeRed Cloud.
 # Change this to a different backend or SMTP server to use your own.
