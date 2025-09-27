@@ -31,3 +31,4 @@ urllib3==2.4.0
 wagtail==7.1.1
 wagtail-localize==1.12.2
 Willow==1.11.0
+sentry-sdk==2.39.0

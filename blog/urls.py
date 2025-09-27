@@ -11,6 +11,10 @@ from search import views as search_views
 from .api import api_router
 from wagtail.contrib.sitemaps.views import sitemap
 from django.conf.urls.i18n import i18n_patterns
+from django.urls import path
+
+def trigger_error(request):
+    division_by_zero = 1 / 0
 
 urlpatterns = [
     path("django-admin/", admin.site.urls),
@@ -18,6 +22,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("api/v2/", api_router.urls),
     path("sitemap.xml", sitemap),
+    path('sentry-debug/', trigger_error),
 ]
 
 
@@ -44,3 +49,6 @@ urlpatterns += i18n_patterns(
 #     # of your site, rather than the site root:
 #     #    path("pages/", include(wagtail_urls)),
 # ]
+
+
+
